@@ -33,22 +33,33 @@ public class GameBoard {
 	@Override
 	public String toString() {
 		// Love all / Points / Dues
-		return String.format("%-30s%-30s", "PlayerNames", "Scores");
+		//return String.format("%-30s%-30s", "Score Card:", boardStatus);
+		return String.format(boardStatus);
 	}
 
 	public static void main(String[] args) {
-		Player p1 = new Player();
-		Player p2 = new Player();
-		p1.setPoints(2);
-		p2.setPoints(3);
-		// System.out.println(p1.compareTo(p2));
-		System.out.println(new GameBoard(p1, p2));
+		try {
+			Player p1 = new Player(args[0]);
+			Player p2 = new Player(args[2]);
+			p1.setPoints(Integer.parseInt(args[1]));
+			p2.setPoints(Integer.parseInt(args[3]));
+			TennisGame t = new TennisGame(p1, p2);
+			GameBoard tennisGameBoard = t.getGameBoard();
+			tennisGameBoard.updateGamePoints();
+			System.out.println(tennisGameBoard.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
 
 class Player implements Comparable<Player> {
 	private int points;
 	private String name;
+
+	Player(String name) {
+		this.name = name;
+	}
 
 	@Override
 	public int compareTo(Player o) {
@@ -57,10 +68,6 @@ class Player implements Comparable<Player> {
 
 	public String getName() {
 		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public int getPoints() {
